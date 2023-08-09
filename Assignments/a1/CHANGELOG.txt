@@ -1,0 +1,18 @@
+Version: 1.0
+Date: 31/07/2023 12:24:07
+
+---
+
+Version: 1.1
+Date: 01/08/2023 16:16:28
+
+1.1
+  - Fixed indentation error on line 52 of execute_refgrid.py
+
+---
+
+Version: 1.2
+Date: 04/08/2023 09:35:06
+
+1.2
+  - The medium.refgrid had two lines that were one character short leading to unexpected behaviour. These have been rectified. See Ed #86.
