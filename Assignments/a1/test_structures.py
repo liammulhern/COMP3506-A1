@@ -97,7 +97,471 @@ def test_extensible_list():
     This is not marked and is just here for you to test your code.
     """
     print ("==== Executing Extensible List Tests ====")
-    my_ex_list = ExtensibleList()
+
+    test_extensible_list_str()
+
+    test_extensible_list_get_empty()
+    test_extensible_list_get_multiple()
+
+    test_extensible_list_get_at_empty()
+    test_extensible_list_get_at_multiple()
+    test_extensible_list_get_at_range()
+
+    test_extensible_list_set()
+    test_extensible_list_set_multiple()
+    test_extensible_list_set_overwrite()
+
+    test_extensible_list_set_at()
+    test_extensible_list_set_at_multiple()
+    test_extensible_list_set_at_overwrite()
+    test_extensible_list_set_at_range()
+
+    test_extensible_list_append_empty()
+    test_extensible_list_append_multiple()
+    test_extensible_list_append_resize()
+    
+    test_extensible_list_remove_empty()
+    test_extensible_list_remove()
+    test_extensible_list_remove_multiple()
+    test_extensible_list_remove_contiguous()
+    
+    test_extensible_list_remove_at_empty()
+    test_extensible_list_remove_at()
+    test_extensible_list_remove_at_multiple()
+    test_extensible_list_remove_at_range()
+    test_extensible_list_remove_at_range_bounds()
+    test_extensible_list_remove_at_contiguous()
+
+def test_extensible_list_str() -> None:
+    print("Str (Empty): ")
+    ex_list = ExtensibleList()
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_get_empty() -> None:
+    print("Get (Empty): ")
+    ex_list = ExtensibleList()
+    
+    print(str(ex_list))
+
+    try:
+        data = ex_list[0]
+        assert(data != None)
+    except Exception as e:
+        print(e)
+
+def test_extensible_list_get_multiple() -> None:
+    print("Get (Multi): ")
+    ex_list = ExtensibleList()
+   
+    ex_list[0] = "Test0"
+    ex_list[1] = "Test1"
+    ex_list[2] = "Test2"
+    ex_list[3] = "Test3"
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+    assert(ex_list[2] == "Test2")
+    assert(ex_list[3] == "Test3")
+
+def test_extensible_list_get_at_empty() -> None:
+    print("Get At (Empty Index): ")
+    ex_list = ExtensibleList()
+    
+    print(str(ex_list))
+
+    try:
+        data = ex_list.get_at(0)
+        assert(data == None)
+    except Exception as e:
+        print(e)
+
+def test_extensible_list_get_at_multiple() -> None:
+    print("Get At (Multi): ")
+    ex_list = ExtensibleList()
+    
+    ex_list.set_at(0, "Test0")
+    ex_list.set_at(1, "Test1")
+    ex_list.set_at(2, "Test2")
+    ex_list.set_at(3, "Test3")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_at(0) == "Test0")
+    assert(ex_list.get_at(1) == "Test1")
+    assert(ex_list.get_at(2) == "Test2")
+    assert(ex_list.get_at(3) == "Test3")
+
+def test_extensible_list_get_at_range() -> None:
+    print("Get At (Range): ")
+    ex_list = ExtensibleList()
+
+    ex_list.set_at(0, "Test0")
+    ex_list.set_at(1, "Test1")
+    ex_list.set_at(2, "Test2")
+    ex_list.set_at(3, "Test3")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_at(4) == None)
+
+def test_extensible_list_set() -> None:
+    print("Set: ")
+    ex_list = ExtensibleList()
+    
+    ex_list[0] = "Test0"
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 1)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_set_multiple() -> None:
+    print("Set (Multi): ")
+    ex_list = ExtensibleList()
+    
+    ex_list[0] = "Test0"
+    ex_list[1] = "Test1"
+    ex_list[2] = "Test2"
+    ex_list[3] = "Test3"
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 4)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_set_overwrite() -> None:
+    print("Set (Overwrite): ")
+    ex_list = ExtensibleList()
+    
+    ex_list[0] = "Test0"
+    ex_list[1] = "Test1"
+    ex_list[2] = "Test2"
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list.get_size() == 3)
+
+    ex_list[0] = "Overwritten"
+    
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Overwritten")
+    assert(ex_list.get_size() == 3)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_set_at() -> None:
+    print("Set At: ")
+    ex_list = ExtensibleList()
+    
+    ex_list.set_at(0, "Test0")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 1)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_set_at_multiple() -> None:
+    print("Set At (Multi): ")
+    ex_list = ExtensibleList()
+    
+    ex_list.set_at(0, "Test0")
+    ex_list.set_at(1, "Test1")
+    ex_list.set_at(2, "Test2")
+    ex_list.set_at(3, "Test3")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 4)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_set_at_range() -> None:
+    print("Set At (Range): ")
+    ex_list = ExtensibleList()
+    
+    ex_list.set_at(0, "Test0")
+    ex_list.set_at(1, "Test1")
+    ex_list.set_at(3, "Test3")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 2)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_set_at_overwrite() -> None:
+    print("Set At (Overwrite): ")
+    ex_list = ExtensibleList()
+    
+    ex_list.set_at(0, "Test0")
+    ex_list.set_at(1, "Test1")
+    ex_list.set_at(2, "Test2")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 3)
+    assert(ex_list.get_at(0) == "Test0")
+
+    ex_list.set_at(0, "Overwritten")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_at(0) == "Overwritten")
+    assert(ex_list.get_size() == 3)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_append_empty() -> None:
+    print("Append (Empty): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list.get_size() == 1)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_append_multiple() -> None:
+    print("Append (Multi): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+    ex_list.append("Test3")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 4)
+    assert(ex_list.get_capacity() == 4)
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+    assert(ex_list[2] == "Test2")
+    assert(ex_list[3] == "Test3")
+
+def test_extensible_list_append_resize() -> None:
+    print("Append (Resize): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+    ex_list.append("Test3")
+    ex_list.append("Test4")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 5)
+    assert(ex_list.get_capacity() == 8)
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+    assert(ex_list[2] == "Test2")
+    assert(ex_list[3] == "Test3")
+    assert(ex_list[4] == "Test4")
+
+def test_extensible_list_remove_empty() -> None:
+    print("Remove (Empty): ")
+    ex_list = ExtensibleList()
+
+    print(str(ex_list))
+
+    ex_list.remove("Test0")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove() -> None:
+    print("Remove: ")
+    ex_list = ExtensibleList()
+    
+    ex_list.append("Test0")
+
+    print(str(ex_list))
+
+    ex_list.remove("Test0")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_multiple() -> None:
+    print("Remove (Multi): ")
+    ex_list = ExtensibleList()
+    
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+
+    ex_list.remove("Test0")
+
+    assert(ex_list[0] == "Test1")
+
+    print(str(ex_list))
+
+    ex_list.remove("Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_contiguous() -> None:
+    print("Remove (Contiguous): ")
+    ex_list = ExtensibleList()
+    
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+    assert(ex_list[2] == "Test2")
+
+    ex_list.remove("Test1")
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test2")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 2)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_at_empty() -> None:
+    print("Remove At (Empty): ")
+    ex_list = ExtensibleList()
+
+    print(str(ex_list))
+
+    assert(ex_list.remove_at(0) == None)
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_at() -> None:
+    print("Remove At: ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+
+    ex_list.remove_at(0)
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_at_multiple() -> None:
+    print("Remove At (Multi): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+
+    ex_list.remove_at(0)
+
+    assert(ex_list[0] == "Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 1)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_at_range() -> None:
+    print("Remove At (Range): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+
+    assert(ex_list.remove_at(3) == None)
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 2)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_at_contiguous() -> None:
+    print("Remove At (Contiguous): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+    assert(ex_list[2] == "Test2")
+
+    ex_list.remove_at(1) 
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test2")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 2)
+    assert(ex_list.get_capacity() == 4)
+
+def test_extensible_list_remove_at_range_bounds() -> None:
+    print("Remove At (Range Bound): ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+
+    assert(ex_list.remove_at(5) == None)
+
+    assert(ex_list[0] == "Test0")
+    assert(ex_list[1] == "Test1")
+
+    print(str(ex_list))
+
+    assert(ex_list.get_size() == 2)
+    assert(ex_list.get_capacity() == 4)
 
 def test_ex_stack():
     """
