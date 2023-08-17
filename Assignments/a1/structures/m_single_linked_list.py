@@ -105,6 +105,7 @@ class SingleLinkedList:
         cur = self.get_head()
         # Check corner case; the head is yet to be set
         if cur is None:
+            self._head = node
             self._size += 1
             return
 

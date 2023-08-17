@@ -24,56 +24,72 @@ def test_single_linked_list():
     This is not marked and is just here for you to test your code.
     """
     print ("==== Executing Single List Tests ====")
-
-    # Consider expanding these tests into your own methods instead of
-    # just doing a bunch of stuff here - this is just to get you started
     
-    # OK, let's add some strings to a list
-    my_single_list = SingleLinkedList()
-    my_single_list.insert_to_front(SingleNode("hello"))
-    my_single_list.insert_to_front(SingleNode("world"))
-    my_single_list.insert_to_front(SingleNode("woo"))
-    my_single_list.insert_to_back(SingleNode("algorithms"))
-    my_single_list.insert_to_front(SingleNode("front"))
-    my_single_list.insert_to_back(SingleNode("back"))
+    test_single_linked_list_init()
+    test_single_linked_list_empty_traverse_and_delete()
+    test_single_linked_list_insert_to_front()
+    test_single_linked_list_insert_to_back()
 
-    # Have a look - we can do this due to overriding __str__ in the class
-    print(str(my_single_list))
-    print(my_single_list.get_size())
+def test_single_linked_list_init() -> None:
+    print("Init:")
+    single_list = SingleLinkedList()
+    
+    print(str(single_list))
 
-    # Now lets try to find a node
-    elem = my_single_list.find_element("world")
-    if elem != None:
-        print ("Found node with data = ", elem.get_data())
+    assert(single_list.get_size() == 0)
+    assert(single_list.get_head() == None)
 
-    print(my_single_list.get_size())
+def test_single_linked_list_empty_traverse_and_delete() -> None:
+    print("Traverse and Delete Empty:")
+    single_list = SingleLinkedList()
+    
+    single_list.traverse_and_delete()
+    print(str(single_list))
 
-    # And try to delete one
-    elem = my_single_list.find_and_remove_element("woo")
-    if elem != None:
-        print ("Deleted ", elem.get_data())
-    else:
-        print ("Didn't find element = woo")
+    assert(single_list.get_size() == 0)
+    assert(single_list.get_head() == None)
 
-    print(my_single_list.get_size())
+def test_single_linked_list_insert_to_front() -> None:
+    print("Insert to Front:")
+    single_list = SingleLinkedList()
+    
+    node1 = SingleNode("1")
+    node2 = SingleNode("2")
+    node3 = SingleNode("3")
 
-    # And try to delete another one
-    elem = my_single_list.find_and_remove_element("world")
-    if elem != None:
-        print ("Deleted ", elem.get_data())
-    else:
-        print ("Didn't find element = world")
+    single_list.insert_to_front(node1)
+    single_list.insert_to_front(node2)
+    single_list.insert_to_front(node3)
 
-    print(str(my_single_list))
+    print(str(single_list))
 
-    my_single_list.remove_from_front()
+    assert(single_list.find_element("3") != None)
+    assert(single_list.find_element("2") != None)
+    assert(single_list.find_element("1") != None)
+    
+    assert(single_list.get_size() == 3)
+    assert(single_list.get_head() == node3)
 
-    # Have another look
-    print(str(my_single_list))
+def test_single_linked_list_insert_to_back() -> None:
+    print("Insert to Back:")
+    single_list = SingleLinkedList()
+    
+    node1 = SingleNode("1")
+    node2 = SingleNode("2")
+    node3 = SingleNode("3")
 
-    # OK, now check size
-    print("After 3 insertions and 1 deletion, size = ", my_single_list.get_size())
-    assert(my_single_list.get_size() == 4)
+    single_list.insert_to_back(node1)
+    single_list.insert_to_back(node2)
+    single_list.insert_to_back(node3)
+
+    print(str(single_list))
+
+    assert(single_list.find_element("3") != None)
+    assert(single_list.find_element("2") != None)
+    assert(single_list.find_element("1") != None)
+    
+    assert(single_list.get_size() == 3)
+    assert(single_list.get_head() == node1)
 
 def test_extensible_list():
     """
@@ -140,7 +156,6 @@ if __name__ == "__main__":
 
     # Get and parse the command line arguments
     parser = argparse.ArgumentParser(description='COMP3506/7505 Assignment One: Data Structure Tests')
-
     parser.add_argument('--linked-list',  action='store_true', help="Run linked list tests?")
     parser.add_argument('--ex-list',      action='store_true', help="Run extensible list tests?")
     parser.add_argument('--linked-stack', action='store_true', help="Run stack (linked list) tests?")
