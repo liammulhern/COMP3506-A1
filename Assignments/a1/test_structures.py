@@ -32,15 +32,21 @@ def test_single_linked_list():
     my_single_list = SingleLinkedList()
     my_single_list.insert_to_front(SingleNode("hello"))
     my_single_list.insert_to_front(SingleNode("world"))
+    my_single_list.insert_to_front(SingleNode("woo"))
     my_single_list.insert_to_back(SingleNode("algorithms"))
+    my_single_list.insert_to_front(SingleNode("front"))
+    my_single_list.insert_to_back(SingleNode("back"))
 
     # Have a look - we can do this due to overriding __str__ in the class
     print(str(my_single_list))
+    print(my_single_list.get_size())
 
     # Now lets try to find a node
     elem = my_single_list.find_element("world")
     if elem != None:
         print ("Found node with data = ", elem.get_data())
+
+    print(my_single_list.get_size())
 
     # And try to delete one
     elem = my_single_list.find_and_remove_element("woo")
@@ -49,6 +55,8 @@ def test_single_linked_list():
     else:
         print ("Didn't find element = woo")
 
+    print(my_single_list.get_size())
+
     # And try to delete another one
     elem = my_single_list.find_and_remove_element("world")
     if elem != None:
@@ -56,12 +64,16 @@ def test_single_linked_list():
     else:
         print ("Didn't find element = world")
 
+    print(str(my_single_list))
+
+    my_single_list.remove_from_front()
+
     # Have another look
     print(str(my_single_list))
 
     # OK, now check size
     print("After 3 insertions and 1 deletion, size = ", my_single_list.get_size())
-    assert(my_single_list.get_size() == 2)
+    assert(my_single_list.get_size() == 4)
 
 def test_extensible_list():
     """

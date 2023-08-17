@@ -98,6 +98,7 @@ class SingleLinkedList:
         if self._head is not None:
             node.set_next(self._head)
         self._head = node
+        self._size += 1
 
     # Insert a node to the back of the list
     def insert_to_back(self, node):
