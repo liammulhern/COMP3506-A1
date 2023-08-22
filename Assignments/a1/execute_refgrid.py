@@ -202,6 +202,8 @@ class RefGrid:
                 # Check for pattern match
                 if base == pattern[similar_bases]:
                     similar_bases += 1
+                    if similar_bases == 1:
+                        base_pattern_start_index = index
                 elif base == pattern[0]:
                     similar_bases = 1
                     base_pattern_start_index = index
@@ -300,9 +302,10 @@ def validate_patterns(p, t):
 def test_find_replace():
     my_refgrid = RefGrid()
     # Yes, I am allowed to use .split, sorry :-)
-    pattern, target = ("ca", "gt") 
+    pattern, target = ("a", "ca") 
     print("Testing cut-and-splice with P = ", pattern, "and T = ", target)
     # Read the refgrid to a linked list
+    # my_refgrid.read_to_linkedlist("Assignments/a1/test.refgrid")
     my_refgrid.read_to_linkedlist("Assignments/a1/data/tiny.refgrid")
     # We supply the pattern length for your information
     my_refgrid.cut_and_splice(pattern, len(pattern), target, len(target))
@@ -310,6 +313,8 @@ def test_find_replace():
     sys.exit(0)
 
 if __name__ == "__main__":
+    test_find_replace()
+
     # Get and parse the command line arguments
     parser = argparse.ArgumentParser(
         description="COMP3506/7505 Assignment One: DNA-RefGrid"
