@@ -183,7 +183,7 @@ class RefGrid:
         max_strand_squence = self.linkedlist.get_size() // self.len 
 
         current_base_node: SingleNode = self.linkedlist.get_head()
-        
+        base_pattern_start_node = current_base_node
         index = 0
 
         # Iterate over the number of strand squences
@@ -192,31 +192,31 @@ class RefGrid:
             current_strand_length = self.len
             current_base_index = 0
             similar_bases = 0
-            base_pattern_start_node = current_base_node
-            base_pattern_start_index = 0
+            base_pattern_start_index = index
 
             # Iterate over the bases in the strand sequence
             # O(len)
-            while current_base_index < current_strand_length:
+            while current_base_index < self.len:
                 base = current_base_node.get_data()
 
                 # Check for pattern match
-                if base == pattern[0]:
-                    similar_bases = 1
-                    base_pattern_start_node = current_base_node
-                    base_pattern_start_index = index
-                elif base == pattern[similar_bases]:
+                if base == pattern[similar_bases]:
                     similar_bases += 1
+                elif base == pattern[0]:
+                    similar_bases = 1
+                    base_pattern_start_index = index
                 else:
                     similar_bases = 0
                     base_pattern_start_node = current_base_node
                     base_pattern_start_index = index
 
                 print(f"Seq={current_strand_sequence} : Index={index} : Base={base} : Similar Bases={similar_bases} : Pattern={pattern[similar_bases - 1]} : Start={base_pattern_start_node.get_data()}[{base_pattern_start_index}]")
+                
+                # Save pointer to end of list pattern in case we insert
+                base_pattern_end_node: SingleNode = current_base_node.get_next()
 
                 if similar_bases == plen:
                     # Pattern matches start inserting new base target nodes
-                    base_pattern_end_node: SingleNode = current_base_node.get_next()
                     current_base_target_node: SingleNode = base_pattern_start_node
 
                     # Insert new target base and update links
@@ -232,7 +232,6 @@ class RefGrid:
                     if base_pattern_start_index == 0:
                         self.linkedlist.remove_from_front()
 
-
                     # Strand length changes by the difference in base length
                     base_target_length_delta = tlen - plen
                     current_strand_length += base_target_length_delta
@@ -241,11 +240,12 @@ class RefGrid:
 
                     # Search for new pattern matches
                     similar_bases = 0
-                    base_pattern_start_node = current_base_node
-
-                current_base_node = current_base_node.get_next()
-                current_base_index += 1
+                    base_pattern_start_index = index + 1
+                    base_pattern_start_node = current_base_target_node 
+                
                 index += 1
+                current_base_index += 1
+                current_base_node = base_pattern_end_node 
 
             print(f"Length: {current_strand_length}")
             self.extlist.append(current_strand_length)
@@ -297,9 +297,19 @@ def validate_patterns(p, t):
         return False
     return True
 
+def test_find_replace():
+    my_refgrid = RefGrid()
+    # Yes, I am allowed to use .split, sorry :-)
+    pattern, target = ("ca", "gt") 
+    print("Testing cut-and-splice with P = ", pattern, "and T = ", target)
+    # Read the refgrid to a linked list
+    my_refgrid.read_to_linkedlist("Assignments/a1/data/tiny.refgrid")
+    # We supply the pattern length for your information
+    my_refgrid.cut_and_splice(pattern, len(pattern), target, len(target))
+    print(my_refgrid.stringify_spliced_linkedlist(), end="")
+    sys.exit(0)
 
 if __name__ == "__main__":
-
     # Get and parse the command line arguments
     parser = argparse.ArgumentParser(
         description="COMP3506/7505 Assignment One: DNA-RefGrid"
@@ -373,4 +383,3 @@ if __name__ == "__main__":
         is_viable = my_refgrid.is_viable()
         print("Testing viability via L-Path: ", is_viable)
         sys.exit(0)
-
