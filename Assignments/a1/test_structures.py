@@ -97,6 +97,8 @@ def test_extensible_list():
     This is not marked and is just here for you to test your code.
     """
     print ("==== Executing Extensible List Tests ====")
+    
+    test_extensible_list_reset()
 
     test_extensible_list_str()
 
@@ -131,6 +133,25 @@ def test_extensible_list():
     test_extensible_list_remove_at_range()
     test_extensible_list_remove_at_range_bounds()
     test_extensible_list_remove_at_contiguous()
+
+def test_extensible_list_reset() -> None:
+    print("Reset: ")
+    ex_list = ExtensibleList()
+
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+    ex_list.append("Test3")
+
+    assert(ex_list.get_size() == 4)
+    assert(ex_list.get_capacity() == 4)
+
+    print(str(ex_list))
+
+    ex_list.reset()
+
+    assert(ex_list.get_size() == 0)
+    assert(ex_list.get_capacity() == 4)
 
 def test_extensible_list_str() -> None:
     print("Str (Empty): ")
@@ -185,10 +206,10 @@ def test_extensible_list_get_at_multiple() -> None:
     print("Get At (Multi): ")
     ex_list = ExtensibleList()
     
-    ex_list.set_at(0, "Test0")
-    ex_list.set_at(1, "Test1")
-    ex_list.set_at(2, "Test2")
-    ex_list.set_at(3, "Test3")
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+    ex_list.append("Test3")
 
     print(str(ex_list))
 
@@ -201,10 +222,10 @@ def test_extensible_list_get_at_range() -> None:
     print("Get At (Range): ")
     ex_list = ExtensibleList()
 
-    ex_list.set_at(0, "Test0")
-    ex_list.set_at(1, "Test1")
-    ex_list.set_at(2, "Test2")
-    ex_list.set_at(3, "Test3")
+    ex_list.append("Test0")
+    ex_list.append("Test1")
+    ex_list.append("Test2")
+    ex_list.append("Test3")
 
     print(str(ex_list))
 
@@ -260,31 +281,46 @@ def test_extensible_list_set_at() -> None:
     print("Set At: ")
     ex_list = ExtensibleList()
     
-    ex_list.set_at(0, "Test0")
+    ex_list.set_at(0, "Test1")
 
     print(str(ex_list))
 
-    assert(ex_list.get_size() == 1)
+    assert(ex_list.get_size() == 0)
     assert(ex_list.get_capacity() == 4)
 
 def test_extensible_list_set_at_multiple() -> None:
     print("Set At (Multi): ")
     ex_list = ExtensibleList()
     
+    ex_list.append("Temp")
+    ex_list.append("Temp")
+    ex_list.append("Temp")
+    ex_list.append("Temp")
+    
+    print(str(ex_list))
+    assert(ex_list.get_size() == 4)
+    assert(ex_list.get_capacity() == 4)
+
     ex_list.set_at(0, "Test0")
     ex_list.set_at(1, "Test1")
     ex_list.set_at(2, "Test2")
     ex_list.set_at(3, "Test3")
 
     print(str(ex_list))
-
     assert(ex_list.get_size() == 4)
     assert(ex_list.get_capacity() == 4)
 
 def test_extensible_list_set_at_range() -> None:
     print("Set At (Range): ")
     ex_list = ExtensibleList()
+
+    ex_list.append("Temp")
+    ex_list.append("Temp")
     
+    print(str(ex_list))
+    assert(ex_list.get_size() == 2)
+    assert(ex_list.get_capacity() == 4)
+
     ex_list.set_at(0, "Test0")
     ex_list.set_at(1, "Test1")
     ex_list.set_at(3, "Test3")
@@ -297,20 +333,26 @@ def test_extensible_list_set_at_range() -> None:
 def test_extensible_list_set_at_overwrite() -> None:
     print("Set At (Overwrite): ")
     ex_list = ExtensibleList()
+ 
+    ex_list.append("Temp")
+    ex_list.append("Temp")
+    ex_list.append("Temp")
     
+    print(str(ex_list))
+    assert(ex_list.get_size() == 3)
+    assert(ex_list.get_capacity() == 4)
+
     ex_list.set_at(0, "Test0")
     ex_list.set_at(1, "Test1")
     ex_list.set_at(2, "Test2")
 
     print(str(ex_list))
-
     assert(ex_list.get_size() == 3)
     assert(ex_list.get_at(0) == "Test0")
 
     ex_list.set_at(0, "Overwritten")
 
     print(str(ex_list))
-
     assert(ex_list.get_at(0) == "Overwritten")
     assert(ex_list.get_size() == 3)
     assert(ex_list.get_capacity() == 4)
@@ -569,7 +611,164 @@ def test_ex_stack():
     This is not marked and is just here for you to test your code.
     """
     print ("==== Executing Stack (ExtensibleList) Tests ====")
-    my_stack = EStack()
+
+    test_ex_stack_push_empty()
+    test_ex_stack_push_multiple()
+
+    test_ex_stack_pop_empty()
+    test_ex_stack_pop()
+    test_ex_stack_pop_multiple_1()
+    test_ex_stack_pop_multiple_2()
+
+    test_ex_stack_peek_empty()
+    test_ex_stack_peek()
+    test_ex_stack_peek_multiple()
+
+def test_ex_stack_push_empty() -> None:
+    print("Push (Empty): ")
+    ex_stack = EStack()
+
+    print(str(ex_stack))
+
+    ex_stack.push("Test0")
+
+    print(str(ex_stack))
+
+    assert(ex_stack.peek() == "Test0")
+    assert(not ex_stack.empty())
+
+def test_ex_stack_push_multiple() -> None:
+    print("Push (Multi): ")
+    ex_stack = EStack()
+
+    print(str(ex_stack))
+
+    ex_stack.push("Test0")
+    ex_stack.push("Test1")
+    ex_stack.push("Test2")
+
+    print(str(ex_stack))
+
+    assert(ex_stack.peek() == "Test2")
+    assert(not ex_stack.empty())
+
+def test_ex_stack_pop_empty() -> None:
+    print("Pop (Empty): ")
+    ex_stack = EStack()
+
+    print(str(ex_stack))
+
+    pop = ex_stack.pop()
+
+    print(str(ex_stack))
+
+    assert(pop == None) 
+    assert(ex_stack.peek() == None) 
+    assert(ex_stack.empty())
+
+def test_ex_stack_pop() -> None:
+    print("Pop: ")
+    ex_stack = EStack()
+    
+    ex_stack.push("Test0")
+
+    print(str(ex_stack))
+
+    pop = ex_stack.pop()
+
+    print(str(ex_stack))
+
+    assert(pop == "Test0") 
+    assert(ex_stack.peek() == None) 
+    assert(ex_stack.empty())
+
+def test_ex_stack_pop_multiple_1() -> None:
+    print("Pop (Multi 1): ")
+    ex_stack = EStack()
+    
+    ex_stack.push("Test0")
+    ex_stack.push("Test1")
+    ex_stack.push("Test2")
+    ex_stack.push("Test3")
+
+    print(str(ex_stack))
+
+    pop = ex_stack.pop()
+
+    print(str(ex_stack))
+
+    assert(pop == "Test3") 
+    assert(ex_stack.peek() == "Test2") 
+    assert(not ex_stack.empty())
+
+def test_ex_stack_pop_multiple_2() -> None:
+    print("Pop (Multi 2): ")
+    ex_stack = EStack()
+    
+    ex_stack.push("Test0")
+    ex_stack.push("Test1")
+    ex_stack.push("Test2")
+    ex_stack.push("Test3")
+
+    print(str(ex_stack))
+
+    pop = ex_stack.pop()
+    assert(pop == "Test3") 
+    assert(ex_stack.peek() == "Test2") 
+    assert(not ex_stack.empty())
+
+    print(str(ex_stack))
+    pop = ex_stack.pop()
+    assert(pop == "Test2") 
+    assert(ex_stack.peek() == "Test1") 
+    assert(not ex_stack.empty())
+
+    print(str(ex_stack))
+    pop = ex_stack.pop()
+    assert(pop == "Test1") 
+    assert(ex_stack.peek() == "Test0") 
+    assert(not ex_stack.empty())
+
+    print(str(ex_stack))
+    pop = ex_stack.pop()
+    assert(pop == "Test0") 
+    assert(ex_stack.peek() == None) 
+    assert(ex_stack.empty())
+
+def test_ex_stack_peek() -> None:
+    print("Peek: ")
+    ex_stack = EStack()
+    
+    ex_stack.push("Test0")
+
+    print(str(ex_stack))
+
+    assert(ex_stack.peek() == "Test0") 
+    assert(not ex_stack.empty())
+
+def test_ex_stack_peek_empty() -> None:
+    print("Peek (Empty): ")
+    ex_stack = EStack()
+
+    print(str(ex_stack))
+
+    assert(ex_stack.peek() == None) 
+    assert(ex_stack.empty())
+
+def test_ex_stack_peek_multiple() -> None:
+    print("Peek (Multi): ")
+    ex_stack = EStack()
+
+    ex_stack.push("Test0")
+    assert(ex_stack.peek() == "Test0") 
+
+    print(str(ex_stack))
+    ex_stack.push("Test1")
+    assert(ex_stack.peek() == "Test1") 
+
+    print(str(ex_stack))
+
+    assert(not ex_stack.empty())
 
 def test_linked_stack():
     """
@@ -577,7 +776,164 @@ def test_linked_stack():
     This is not marked and is just here for you to test your code.
     """
     print ("==== Executing Stack (SingleLinkedList) Tests ====")
-    my_stack = LStack()
+
+    test_l_stack_push_empty()
+    test_l_stack_push_multiple()
+
+    test_l_stack_pop_empty()
+    test_l_stack_pop()
+    test_l_stack_pop_multiple_1()
+    test_l_stack_pop_multiple_2()
+
+    test_l_stack_peek_empty()
+    test_l_stack_peek()
+    test_l_stack_peek_multiple()
+
+def test_l_stack_push_empty() -> None:
+    print("Push (Empty): ")
+    l_stack = LStack()
+
+    print(str(l_stack))
+
+    l_stack.push("Test0")
+
+    print(str(l_stack))
+
+    assert(l_stack.peek() == "Test0")
+    assert(not l_stack.empty())
+
+def test_l_stack_push_multiple() -> None:
+    print("Push (Multi): ")
+    l_stack = LStack()
+
+    print(str(l_stack))
+
+    l_stack.push("Test0")
+    l_stack.push("Test1")
+    l_stack.push("Test2")
+
+    print(str(l_stack))
+
+    assert(l_stack.peek() == "Test2")
+    assert(not l_stack.empty())
+
+def test_l_stack_pop_empty() -> None:
+    print("Pop (Empty): ")
+    l_stack = LStack()
+
+    print(str(l_stack))
+
+    pop = l_stack.pop()
+
+    print(str(l_stack))
+
+    assert(pop == None) 
+    assert(l_stack.peek() == None) 
+    assert(l_stack.empty())
+
+def test_l_stack_pop() -> None:
+    print("Pop: ")
+    l_stack = LStack()
+    
+    l_stack.push("Test0")
+
+    print(str(l_stack))
+
+    pop = l_stack.pop()
+
+    print(str(l_stack))
+
+    assert(pop == "Test0") 
+    assert(l_stack.peek() == None) 
+    assert(l_stack.empty())
+
+def test_l_stack_pop_multiple_1() -> None:
+    print("Pop (Multi 1): ")
+    l_stack = LStack()
+    
+    l_stack.push("Test0")
+    l_stack.push("Test1")
+    l_stack.push("Test2")
+    l_stack.push("Test3")
+
+    print(str(l_stack))
+
+    pop = l_stack.pop()
+
+    print(str(l_stack))
+
+    assert(pop == "Test3") 
+    assert(l_stack.peek() == "Test2") 
+    assert(not l_stack.empty())
+
+def test_l_stack_pop_multiple_2() -> None:
+    print("Pop (Multi 2): ")
+    l_stack = LStack()
+    
+    l_stack.push("Test0")
+    l_stack.push("Test1")
+    l_stack.push("Test2")
+    l_stack.push("Test3")
+
+    print(str(l_stack))
+
+    pop = l_stack.pop()
+    assert(pop == "Test3") 
+    assert(l_stack.peek() == "Test2") 
+    assert(not l_stack.empty())
+
+    print(str(l_stack))
+    pop = l_stack.pop()
+    assert(pop == "Test2") 
+    assert(l_stack.peek() == "Test1") 
+    assert(not l_stack.empty())
+
+    print(str(l_stack))
+    pop = l_stack.pop()
+    assert(pop == "Test1") 
+    assert(l_stack.peek() == "Test0") 
+    assert(not l_stack.empty())
+
+    print(str(l_stack))
+    pop = l_stack.pop()
+    assert(pop == "Test0") 
+    assert(l_stack.peek() == None) 
+    assert(l_stack.empty())
+
+def test_l_stack_peek() -> None:
+    print("Peek: ")
+    l_stack = LStack()
+    
+    l_stack.push("Test0")
+
+    print(str(l_stack))
+
+    assert(l_stack.peek() == "Test0") 
+    assert(not l_stack.empty())
+
+def test_l_stack_peek_empty() -> None:
+    print("Peek (Empty): ")
+    l_stack = LStack()
+
+    print(str(l_stack))
+
+    assert(l_stack.peek() == None) 
+    assert(l_stack.empty())
+
+def test_l_stack_peek_multiple() -> None:
+    print("Peek (Multi): ")
+    l_stack = LStack()
+
+    l_stack.push("Test0")
+    assert(l_stack.peek() == "Test0") 
+
+    print(str(l_stack))
+    l_stack.push("Test1")
+    assert(l_stack.peek() == "Test1") 
+
+    print(str(l_stack))
+
+    assert(not l_stack.empty())
 
 
 # Benchmark stacks

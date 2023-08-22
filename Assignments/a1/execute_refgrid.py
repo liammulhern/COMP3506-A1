@@ -86,33 +86,169 @@ class RefGrid:
         """
         Converts the extensible list to a string; used for printing ...
         """
-        pass
+        outstr = ""
+        
+        for i in range(self.extlist.get_size()):
+            outstr += str(self.extlist[i])
+
+            if i < self.extlist.get_size() - 1:
+                outstr += ", "
+
+        return outstr
 
     def stringify_spliced_linkedlist(self):
         """
         Converts a cut-and-spliced linked list by handling the variable row length
         of each sequence; use this to test your output for Task 2.2.
         """
-        pass
+        outstr = ""
+        base_count = 0
+        strand_count = 0
+        strand_count_max = self.extlist.get_size() 
+        current_base = self.linkedlist.get_head()
+
+        while current_base != None:
+            outstr += str(current_base.get_data())
+            base_count += 1
+            
+            if base_count % self.extlist[strand_count] == 0:
+                outstr += "\n"
+                base_count = 0
+                if strand_count < strand_count_max - 1:
+                    strand_count += 1
+
+            current_base = current_base.get_next()
+
+        return outstr
 
     def reverse_seq(self, k):
         """
         Task 2.1, sequence reversal. You need to use/store your result in the
         linkedlist class member.
-        """
-        pass
 
+        Total Time Complexitiy: O(m) + O(p) + O(q) = O(m + p + q) => O(n)
+        """
+        max_k = (self.linkedlist.get_size() // self.len) - 1
+
+        if k < 0 or k > max_k: 
+            return
+
+        strand_start_index = k * self.len
+        reversed_sequence: LStack = LStack()
+
+        # Get node at the start of the strand sequence 
+        # Complexitiy: O(m)
+        start_strand: SingleNode = self._linked_list_go_to_index(strand_start_index)
+        cur: SingleNode = start_strand
+
+        # Create stack of strand bases
+        # Complexitiy: O(p)
+        for i in range(self.len):
+            strand = cur.get_data()
+            reversed_sequence.push(strand)
+            cur = cur.get_next()
+
+        cur = start_strand
+
+        # Insert reversed strand sequence as the strand
+        # Complexitiy: O(q)
+        for i in range(self.len):
+            # Get strand base from top of stack and replace
+            # the current strand base
+            strand = reversed_sequence.pop()
+            cur.set_data(strand)
+            cur = cur.get_next()
+    
+    def _linked_list_go_to_index(self, index) -> SingleNode:
+        """
+        Get the list node at the specified index in the linked list.
+        """
+        cur: SingleNode = self.linkedlist.get_head()
+
+        # Go to start index of strand in linked list
+        for i in range(index):
+            cur = cur.get_next()
+
+        return cur
 
     def cut_and_splice(self, pattern, plen, target, tlen):
         """
         Task 2.2, cut-and-splice (plen is the length of the pattern, tlen is
-        the length of the target. We provide these so you don't have to call
+        the length of the target). We provide these so you don't have to call
         len() since it's not allowed...
         Note: You are allowed to access and operate on the strings directly,
         EG: first_char = pattern[0] - you do NOT need to convert them to
         linked list or extensible list representations
         """
-        pass
+        max_strand_squence = self.linkedlist.get_size() // self.len 
+
+        current_base_node: SingleNode = self.linkedlist.get_head()
+        
+        index = 0
+
+        # Iterate over the number of strand squences
+        # O(n/len)
+        for current_strand_sequence in range(max_strand_squence):
+            current_strand_length = self.len
+            current_base_index = 0
+            similar_bases = 0
+            base_pattern_start_node = current_base_node
+            base_pattern_start_index = 0
+
+            # Iterate over the bases in the strand sequence
+            # O(len)
+            while current_base_index < current_strand_length:
+                base = current_base_node.get_data()
+
+                # Check for pattern match
+                if base == pattern[0]:
+                    similar_bases = 1
+                    base_pattern_start_node = current_base_node
+                    base_pattern_start_index = index
+                elif base == pattern[similar_bases]:
+                    similar_bases += 1
+                else:
+                    similar_bases = 0
+                    base_pattern_start_node = current_base_node
+                    base_pattern_start_index = index
+
+                print(f"Seq={current_strand_sequence} : Index={index} : Base={base} : Similar Bases={similar_bases} : Pattern={pattern[similar_bases - 1]} : Start={base_pattern_start_node.get_data()}[{base_pattern_start_index}]")
+
+                if similar_bases == plen:
+                    # Pattern matches start inserting new base target nodes
+                    base_pattern_end_node: SingleNode = current_base_node.get_next()
+                    current_base_target_node: SingleNode = base_pattern_start_node
+
+                    # Insert new target base and update links
+                    for j in range(tlen):
+                        base_target_node: SingleNode = SingleNode(target[j])
+                        current_base_target_node.set_next(base_target_node)
+                        current_base_target_node = current_base_target_node.get_next()
+            
+                    # Reconnect original nodes 
+                    current_base_target_node.set_next(base_pattern_end_node)
+                    
+                    # Remove old head with new pattern if it starts at 0
+                    if base_pattern_start_index == 0:
+                        self.linkedlist.remove_from_front()
+
+
+                    # Strand length changes by the difference in base length
+                    base_target_length_delta = tlen - plen
+                    current_strand_length += base_target_length_delta
+                    list_new_size = self.linkedlist.get_size() + base_target_length_delta
+                    self.linkedlist.set_size(list_new_size)
+
+                    # Search for new pattern matches
+                    similar_bases = 0
+                    base_pattern_start_node = current_base_node
+
+                current_base_node = current_base_node.get_next()
+                current_base_index += 1
+                index += 1
+
+            print(f"Length: {current_strand_length}")
+            self.extlist.append(current_strand_length)
 
     # Barry's left and below helper functions
     def right(self, idx):

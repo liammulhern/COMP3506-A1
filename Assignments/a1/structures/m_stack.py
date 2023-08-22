@@ -20,7 +20,7 @@ class EStack(ExtensibleList):
         """
         Create an empty stack
         """
-        pass
+        super().__init__()
 
     # Think carefully about which operations inherited from the ExtensibleList
     # need to be overridden to allow the Stack to function correctly. Implement
@@ -32,26 +32,49 @@ class EStack(ExtensibleList):
         """
         Push a new element (elem) to the top of the stack
         """
-        pass
+        self.append(elem)
 
     def pop(self):
         """
         Remove and return the top element, return None if empty
         """
-        pass
+        return self.remove_at(self._size - 1) 
 
     def peek(self):
         """
         Peek at the top element, but do not pop it out, return None if empty
         """
-        pass
+        return self._data[self._size - 1]
 
     def empty(self):
         """
         Boolean helper: Returns True if the stack is empty, False otherwise
         """
-        return True
+        return self._size == 0
 
+    def reset(self):
+        raise Exception("Not Implemented In Stack")
+   
+    def __setitem__(self):
+        raise Exception("Not Implemented In Stack")
+
+    def set_at(self):
+        raise Exception("Not Implemented In Stack")
+
+    def remove(self, element):
+        raise Exception("Not Implemented In Stack")
+
+    def is_empty(self):
+        raise Exception("Not Implemented In Stack")
+
+    def is_full(self):
+        raise Exception("Not Implemented In Stack")
+
+    def get_size(self):
+        raise Exception("Not Implemented In Stack")
+
+    def get_capacity(self):
+        raise Exception("Not Implemented In Stack")
 
 class LStack(SingleLinkedList):
  
@@ -65,7 +88,7 @@ class LStack(SingleLinkedList):
         """
         Create an empty stack
         """
-        pass
+        super().__init__()
 
     # Think carefully about which operations inherited from the SingleLinkedList
     # need to be overridden to allow the Stack to function correctly. Implement
@@ -77,22 +100,61 @@ class LStack(SingleLinkedList):
         """
         Push a new element (elem) to the top of the stack
         """
-        pass
+        element_node = SingleNode(elem)
+
+        self.insert_to_front(element_node)
 
     def pop(self):
         """
         Remove and return the top element, return None if empty
         """
-        pass
+        element_node: SingleNode = self.remove_from_front()
+        
+        if element_node == None:
+            return None
+
+        return element_node.get_data()
 
     def peek(self):
         """
         Peek at the top element, but do not pop it out, return None if empty
         """
-        pass
+        element_node: SingleNode = self.get_head()
+        
+        if element_node == None:
+            return None
+
+        return element_node.get_data()
 
     def empty(self):
         """
         Boolean helper: Returns True if the stack is empty, False otherwise
         """
-        return True
+        return self._size == 0
+
+    def traverse_and_delete(self):
+        raise Exception("Not Implemented In Stack")
+   
+    def get_size(self):
+        raise Exception("Not Implemented In Stack")
+
+    def set_size(self, s):
+        raise Exception("Not Implemented In Stack")
+
+    def set_head(self):
+        raise Exception("Not Implemented In Stack")
+    
+    def insert_to_back(self, node):
+        raise Exception("Not Implemented In Stack")
+
+    def remove_from_back(self):
+        raise Exception("Not Implemented In Stack")
+
+    def find_element(self, elem):
+        raise Exception("Not Implemented In Stack")
+
+    def find_and_remove_element(self, elem):
+        raise Exception("Not Implemented In Stack")
+
+    def reverse(self):
+        raise Exception("Not Implemented In Stack")

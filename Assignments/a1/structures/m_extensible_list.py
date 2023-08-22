@@ -81,7 +81,7 @@ class ExtensibleList:
         also check that the index is within the desired bounds;
         if out of bounds, return None
         """
-        if self.is_empty():
+        if self._size == 0:
             return None
 
         if index < 0 or index >= self._size:
@@ -106,9 +106,9 @@ class ExtensibleList:
         it will also check that the index is within the desired bounds;
         if out of bounds, do nothing
         """
-        if self.is_empty() and index == 0:
-            self.__setitem__(index, element)
-        elif index < 0 or index > self._size:
+        if self._size == 0:
+            return
+        elif index < 0 or index >= self._size:
             return
 
         self.__setitem__(index, element)
@@ -133,17 +133,19 @@ class ExtensibleList:
         a list [1, 3, None, None], not [1, None, 3, None]. Elements
         should remain contiguous.
         """
-        if self.is_empty():
-            return
+        if self._size == 0:
+            return None
 
         # Set deletion point default to -1 (invalid index)
         deletion_point = -1
-        
+        removed_elem = None
+
         for i in range(self._size):
             if self._data[i] == element and deletion_point == -1:
                # When element is found set the deletion point to the 
                # current index 
                deletion_point = i
+               removed_elem = self._data[i]
                self._data[i] = None
                self._size -= 1
             elif deletion_point != -1:
@@ -151,18 +153,21 @@ class ExtensibleList:
                 self._data[i - 1] = self._data[i]
                 self._data[i] = None
 
+        return removed_elem
+
     def remove_at(self, index):
         """
         Remove and return the element at a given index; make sure the bounds
         are checked. If out of bounds, return None
         """
-        if self.is_empty():
+        if self._size == 0:
             return None
 
         if self.get_at(index) == None:
             return None
 
         # Remove data at index
+        removed_elem = self._data[index] 
         self._data[index] = None
 
         for i in range(index + 1, self._size):
@@ -171,6 +176,8 @@ class ExtensibleList:
             self._data[i] = None
 
         self._size -= 1
+
+        return removed_elem
 
     def is_empty(self):
         """
