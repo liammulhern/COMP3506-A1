@@ -212,8 +212,6 @@ class RefGrid:
                     base_pattern_start_node = current_base_node
                     base_pattern_start_index = index
 
-                print(f"Seq={current_strand_sequence} : Index={index} : Base={base} : Similar Bases={similar_bases} : Pattern={pattern[similar_bases - 1]} : Start={base_pattern_start_node.get_data()}[{base_pattern_start_index}]")
-                
                 # Save pointer to end of list pattern in case we insert
                 base_pattern_end_node: SingleNode = current_base_node.get_next()
 
@@ -249,7 +247,6 @@ class RefGrid:
                 current_base_index += 1
                 current_base_node = base_pattern_end_node 
 
-            print(f"Length: {current_strand_length}")
             self.extlist.append(current_strand_length)
 
     # Barry's left and below helper functions
@@ -313,8 +310,6 @@ def test_find_replace():
     sys.exit(0)
 
 if __name__ == "__main__":
-    test_find_replace()
-
     # Get and parse the command line arguments
     parser = argparse.ArgumentParser(
         description="COMP3506/7505 Assignment One: DNA-RefGrid"
