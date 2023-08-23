@@ -204,6 +204,7 @@ class RefGrid:
                     similar_bases += 1
                     if similar_bases == 1:
                         base_pattern_start_index = index
+                        base_pattern_start_node = current_base_node
                 elif base == pattern[0]:
                     similar_bases = 1
                     base_pattern_start_index = index
@@ -299,11 +300,11 @@ def validate_patterns(p, t):
 def test_find_replace():
     my_refgrid = RefGrid()
     # Yes, I am allowed to use .split, sorry :-)
-    pattern, target = ("a", "ca") 
+    pattern, target = ("tg", "c") 
     print("Testing cut-and-splice with P = ", pattern, "and T = ", target)
     # Read the refgrid to a linked list
-    # my_refgrid.read_to_linkedlist("Assignments/a1/test.refgrid")
-    my_refgrid.read_to_linkedlist("Assignments/a1/data/tiny.refgrid")
+    my_refgrid.read_to_linkedlist("Assignments/a1/test.refgrid")
+    # my_refgrid.read_to_linkedlist("Assignments/a1/data/tiny.refgrid")
     # We supply the pattern length for your information
     my_refgrid.cut_and_splice(pattern, len(pattern), target, len(target))
     print(my_refgrid.stringify_spliced_linkedlist(), end="")
